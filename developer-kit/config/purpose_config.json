@@ -1,0 +1,19 @@
+{
+    "purpose_type": "user_bound",
+    "one_time": false,
+    "pi_scopes": [
+        {
+            "id": "qod-sessions-delete"
+        },
+        {
+            "id": "qod-sessions-read"
+        },
+        {
+            "id": "qod-sessions-write"
+        }
+    ],
+    "description": "service:my-new-test-app-v3:qod_purpose_contract",
+    "id": "service:my-new-test-app-v3:qod_purpose_contract",
+    "title": "service:my-new-test-app-v3:qod_purpose_contract",
+    "level": "contract"
+}
