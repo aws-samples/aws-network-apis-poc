@@ -3,7 +3,7 @@
 ##################################################
 # Configurations
 ##################################################
-CONFIG='config/qod_config.json'
+CONFIG='config/config.json'
 
 printf "=============================\n"
 printf "Welcome to the Developer Kit!\n"

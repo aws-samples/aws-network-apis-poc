@@ -1,0 +1,14 @@
+{
+    "ueId": {
+        "msisdn": "34678767400"
+    },
+    "asId": {
+        "ipv4addr": "0.0.0.0/0"
+    },
+    "asPorts": {
+        "ports": [
+            443
+        ]
+    },
+    "qos": "QOS_L"
+}
