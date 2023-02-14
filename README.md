@@ -92,7 +92,7 @@ You can either execute the `demo.sh` script or execute the following commands:
 ```bash
 # Create a QoD Session
 curl \
--d '@config/qod_config.json' \
+-d '@config/config.json' \
 -H 'Content-Type: application/json' \
 -X POST \
 'http://127.0.0.1/connectivity'
