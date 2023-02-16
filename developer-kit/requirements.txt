@@ -13,4 +13,4 @@ PyJWT==2.6.0
 python-dotenv==0.21.1
 requests==2.28.2
 urllib3==1.26.14
-Werkzeug==2.2.2
+Werkzeug==2.2.3
