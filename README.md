@@ -75,18 +75,7 @@ npm install && npm run build
 cdk deploy EC2InstanceStack
 ```
 
-## Step 3: Run a JWKS Server on the EC2 instance in the Region
-
-In this step, please use the `jwks-server` directory.
-
-1. Use https://mkjwk.org/ to create your JWK (JSON Web Key).
-2. Use https://8gwifi.org/jwkconvertfunctions.jsp to convert your JWK into a RSA PEM encoded public and private key.
-3. SSH into the EC2 instance your provisioned in Step 2.
-4. Clone the `jwks-server` directory onto the EC2 instance.
-5. Update the public key with the public key from the JWK you created in Step 3.1.
-6. Run the Flask Server. You can either execute `make python` to run the Flask App using Python, or execute `make build` to build the Flask App in a Docker Container and then `make run` to launch the Docker Container.
-
-## Step 4: Run the Developer Kit
+## Step 3: Run the Developer Kit
 
 In this step, please use the `developer-kit` directory.
 
@@ -97,48 +86,6 @@ In this step, please use the `developer-kit` directory.
 ### Usage
 
 You can either execute the `demo.sh` script or execute the following commands:
-
-#### Purposes
-
-```bash
-# Create a Purpose
-curl \
--d '@config/purpose_config.json' \
--H 'Content-Type: application/json' \
--X POST \
-'http://127.0.0.1/purposes'
-
-# Get a Purpose
-curl \
--X GET \
-'http://127.0.0.1/purposes/[INSERT PURPOSE ID]'
-
-# Delete a Purpose
-curl \
--X DELETE \
-'http://127.0.0.1/purposes/[INSERT PURPOSE ID]'
-```
-
-#### Apps
-
-```bash
-# Create a App
-curl \
--d '@config/app_config.json' \
--H 'Content-Type: application/json' \
--X POST \
-'http://127.0.0.1/apps'
-
-# Get a App
-curl \
--X GET \
-'http://127.0.0.1/apps/[INSERT APP ID]'
-
-# Delete a App
-curl \
--X DELETE \
-'http://127.0.0.1/apps/[INSERT APP ID]'
-```
 
 #### QoD Sessions
 
@@ -171,7 +118,4 @@ This library is licensed under the MIT-0 License. See the LICENSE file.
 
 ## References
 
-- https://mkjwk.org/
-- https://8gwifi.org/jwkconvertfunctions.jsp
-- https://jwt.io
-- https://www.unixtimestamp.com/index.php
+- N/A

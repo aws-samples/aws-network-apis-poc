@@ -1,20 +1,43 @@
 {
     "duration": 60,
-    "ueId": {
-        "ipv4addr": "11.213.1.204"
+    "ueSession": {
+        "externalId": "",
+        "msisdn": "19255323821",
+        "ipv4addr": "108.178.0.9"
     },
-    "asId": {
-        "ipv4addr": "11.213.1.204"
+    "applicationServerEndpoint": {
+        "ipv4addr": "155.146.113.19"
     },
     "uePorts": {
+        "ranges": [
+            {
+                "from": 5010,
+                "to": 5020
+            }
+        ],
         "ports": [
-            5060
         ]
     },
-    "asPorts": {
+    "applicationServerPorts": {
+        "ranges": [
+            {
+                "from": 5010,
+                "to": 5020
+            }
+        ],
         "ports": [
-            5060
         ]
     },
-    "qos": "QOS_E"
+    "qos": "LOW_LATENCY_HIGH_BANDWIDTH",
+    "fallbackQos": "LOW_LATENCY_LOW_BANDWIDTH",
+    "applicationServiceProfileId": "3fa85f64-5717-4562-b3fc-2c963f66afa6",
+    "callback": {
+        "uri": "/localhost:443/notifications",
+        "authRequired": true,
+        "authType": "basicauth",
+        "authProperties": {
+            "username": "user123",
+            "password": "pwd123"
+        }
+    }
 }
