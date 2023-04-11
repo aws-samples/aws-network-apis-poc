@@ -1,11 +1,16 @@
 build:
-	docker build -t developer-kit .
-
+		docker build -t developer-kit .
 run:
-	docker run --rm -it -p 80:80 developer-kit
-
+		docker run -d --name developer-kit -p 80:80 developer-kit
+stop:
+		docker stop developer-kit
+		docker rm developer-kit
+logs:
+		docker logs developer-kit
+exec:
+		docker exec -it developer-kit bash
 python:
-	python app.py
+		python app.py
 
 clean:
-	rm -rf __pycache__
+		rm -rf __pycache__
