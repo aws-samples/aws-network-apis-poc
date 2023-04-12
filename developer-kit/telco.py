@@ -8,6 +8,9 @@ import time
 from dotenv import load_dotenv
 import os
 
+API_VERSION_V0 = 'v0'
+API_VERSION_V1 = 'v1'
+
 class Telco():
     '''
     The Telco class is used to interact with the Telco QoD APIs.
@@ -17,20 +20,20 @@ class Telco():
         Initializes a Telco object.
         '''
         load_dotenv(".env")
-        # General Deliverables
+        # API Variables
         self.auth_domain_name = os.environ['AUTH_DOMAIN_NAME']
         self.api_domain_name = os.environ['API_DOMAIN_NAME']
+        self.api_version = os.environ['API_VERSION']
 
-        # Specific Deliverables
+        # AWS Specific Variables
         self.admin_app_secret = os.environ['ADMIN_APP_SECRET']
-        self.app_secret = os.environ['APP_SECRET']
         self.path_to_private_pem = os.environ['PATH_TO_PRIVATE_PEM']
+        self.path_to_public_pem =  os.environ['PATH_TO_PUBLIC_PEM']
         self.issuer = os.environ['ISSUER']
-        self.purpose = os.environ["PURPOSE"]
 
-        # TODO: Should this be hardcoded or read from the input's ue_identifier field
-        self.identifier_type = "ip"
-        self.identifier = "11.213.1.204"
+        # App Developer Variables
+        self.purpose = os.environ["PURPOSE"]
+        self.app_secret = os.environ['APP_SECRET']
 
     def generate_qod_access_token(self):
         '''
@@ -68,7 +71,13 @@ class Telco():
         Create a QoD Session.
         '''
         access_token = self.generate_qod_access_token()
-        url = f'https://{self.api_domain_name}/qod/v0/sessions'
+        url = f'https://{self.api_domain_name}'
+        if self.api_version == API_VERSION_V0:
+            url = f'{url}/qod/v0/sessions'
+        elif self.api_version == API_VERSION_V1:
+            url = f'{url}/qod-rc/v1/sessions'
+        else:
+            raise Exception(f"API VERSION is not valid {self.api_version}.")
         headers = {
             'Content-Type': 'application/json',
             'Authorization': f'Bearer {access_token}'
@@ -77,7 +86,10 @@ class Telco():
         self.log_request(r)
 
         if r.status_code == 201:
-            return {"id": r.json()["id"]}
+            if self.api_version == API_VERSION_V0:
+                return {"id": r.json()["id"]}
+            elif self.api_version == API_VERSION_V1:
+                return {"session_id": r.json()["id"]}
 
         return None
 
@@ -86,7 +98,14 @@ class Telco():
         Get a QoD Session.
         '''
         access_token = self.generate_qod_access_token()
-        url = f'https://{self.api_domain_name}/qod/v0/sessions/{session_id}'
+        url = f'https://{self.api_domain_name}'
+        if self.api_version == API_VERSION_V0:
+            url = f'{url}/qod/v0/sessions'
+        elif self.api_version == API_VERSION_V1:
+            url = f'{url}/qod-rc/v1/sessions'
+        else:
+            raise Exception(f"API VERSION is not valid {self.api_version}.")
+        url = f'{url}/{session_id}'
         headers = {
             'Content-Type': 'application/json',
             'Authorization': f'Bearer {access_token}'
@@ -100,7 +119,14 @@ class Telco():
         Delete a QoD Session.
         '''
         access_token = self.generate_qod_access_token()
-        url = f'https://{self.api_domain_name}/qod/v0/sessions/{session_id}'
+        url = f'https://{self.api_domain_name}'
+        if self.api_version == API_VERSION_V0:
+            url = f'{url}/qod/v0/sessions'
+        elif self.api_version == API_VERSION_V1:
+            url = f'{url}/qod-rc/v1/sessions'
+        else:
+            raise Exception(f"API VERSION is not valid {self.api_version}.")
+        url = f'{url}/{session_id}'
         headers = {
             'Content-Type': 'application/json',
             'Authorization': f'Bearer {access_token}'
@@ -120,7 +146,7 @@ class Telco():
             'Authorization': f'Basic {self.admin_app_secret}'
         }
         data = {
-            'scope': 'gdpr:purposes:create gdpr:purposes:read gdpr:purposes:delete',
+            'scope': 'gdpr:purposes:create gdpr:purposes:read', # gdpr:purposes:delete',
             'grant_type': 'client_credentials'
         }
         r = requests.post(url=url, headers=headers, data=data)
@@ -234,6 +260,7 @@ class Telco():
         self.log_request(r)
         return r.json()
 
+    # TODO: Hardcoded to use Phone Number temporarily until IP is supported.
     def create_jwt(self):
         with open(self.path_to_private_pem, 'r') as f:
             private_key = f.read()
@@ -247,25 +274,37 @@ class Telco():
             "iss": f"{self.issuer}",
             "exp": int(time.time()) + 10000,
             "iat": int(time.time()),
-            "identifier_type": f"{self.identifier_type}",
-            "identifier": f"{self.identifier}"
+            # identifier_type is either phone_number or ip
+            "identifier_type": "phone_number",
+            # identifier is either UE phone number or ip
+            "identifier": "+34696836198"
         }
         encoded = jwt.encode(payload=payload, key=private_key, algorithm="RS256", headers=headers)
+
+        with open(self.path_to_public_pem, 'r') as fi:
+            public_key = fi.read()
+        decoded = jwt.decode(encoded, public_key, algorithms=["RS256"], audience=f"https://{self.auth_domain_name}/")
 
         # DEBUG
         print()
         print(f"Headers: {headers}")
         print(f"Payload: {payload}")
         print(f"Encoded JWT: {encoded}")
+        print(f"Decoded JWT: {decoded}")
         print()
 
         return encoded
 
     def log_request(self, r):
         print()
+        print(f"Request:")
         print(f"URL: {r.request.url}")
         print(f"Headers: {r.request.headers}")
         print(f"Body: {r.request.body}")
-        print(f"Response: {r.text}")
+        print()
+        print(f"Response:")
+        print(f"URL: {r.url}")
+        print(f"Headers: {r.headers}")
+        print(f"Body: {r.text}")
         print()
         return

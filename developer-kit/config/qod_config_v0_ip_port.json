@@ -1,0 +1,15 @@
+{
+  "duration": 86400,
+  "ueId": {
+      "ipv4addr": "95.127.20.78"
+  },
+  "asId": {
+      "ipv4addr": "1.1.1.1"
+  },
+  "uePorts": {
+      "ports": [
+          47432
+      ]
+  },
+  "qos": "QOS_E"
+}

@@ -18,7 +18,7 @@
     "requires_authorization_id": true,
     "client_type": "CONFIDENTIAL",
     "refresh_token_renewable_expiration": true,
-    "legal_entity_id": "amazon",
+    "legal_entity_id": "amazon_web_services",
     "redirect_uris": [],
     "tags": {},
     "secret": "my-new-test-app-secret"

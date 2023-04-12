@@ -1,0 +1,10 @@
+{
+  "duration": 300,
+  "ueId": {
+      "msisdn": "+34696836198"
+  },
+  "asId": {
+      "ipv4addr": "1.1.1.1"
+  },
+  "qos": "QOS_E"
+}

@@ -1,0 +1,11 @@
+{
+  "duration": 300,
+  "app_server_info": {
+    "ip_address_format": "IPv4",
+    "ip_address": "95.127.20.78",
+    "ports": [
+      47432
+    ]
+  },
+  "qos": "THROUGHPUT_L"
+}
